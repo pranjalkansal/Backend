@@ -1,0 +1,262 @@
+function getCookie(mail)
+{
+	var data=document.cookie;
+	var passwd;
+	data=data.slice(data.indexOf(mail));
+	data=data.slice(data.indexOf("password"));
+	data=data.slice(data.indexOf("="));
+	passwd=data.slice(1,data.indexOf("/"));
+	alert(passwd);
+	return passwd;
+}
+function setCookie(usr_data)
+{
+	document.cookie+="email="+usr_data.email+":first_name="+usr_data.firstname+":surname="+usr_data.surname+":dob="+usr_data.dob+":password="+usr_data.passwd+"/;";
+}
+function checkCookie(mail,passwd)
+{
+	var data=document.cookie;
+	if(passwd=="")
+	{
+		if(data.search(mail)>-1)
+			return true;
+	}
+	if(data.search(mail)>-1)
+	{
+		if(getCookie(mail)==passwd)
+		return true;
+	}
+	else
+		return false;
+}
+function login_validator()
+{
+	var mail=document.getElementById("login_mail").value;
+	var passwd=document.getElementById("login_passwd").value;
+	if(mail=="" || passwd=="")
+	{
+		alert("Email or password cannot be empty!!");
+		document.getElementById("login_mail").focus();
+		return false;
+	}
+	if(isNaN(mail))
+	{
+		var pattern=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if(!mail.match(pattern))
+		{
+			alert("Invalid mail!!");
+			document.getElementById("login_mail").focus();
+			return false;
+		}
+	}
+	else
+	{
+		if(mail.length!=10)
+			{
+				alert("Invalid Mobile number!!");
+				document.getElementById("login_mail").focus();
+				return false;
+			}
+	}
+	if(passwd.length<8)
+	{
+		alert("Password is too small!!");
+		document.getElementById("login_passwd").focus();
+		return false;
+	}
+	if(checkCookie(mail,passwd))
+		return true;
+	else
+	{
+		document.getElementById("login_passwd").value="";
+		document.getElementById("login_passwd").placeholder="Wrong password!!";
+		document.getElementById("login_passwd").focus();
+		return false;
+	}
+}
+function firstname_validator()
+{
+	var name=document.getElementById("first_name").value;
+	var pattern=/\W|\d|_/ig;
+	if(name=="" || name.length<3 || name.indexOf(" ")>-1 || name.match(pattern))
+	{
+		document.getElementById("first_name").value="";
+		document.getElementById("first_name").placeholder="Invalid name!!";
+		document.getElementById("first_name").focus();
+		return false;
+	}
+	else
+		return true;
+}
+function surname_validator()
+{
+	var name=document.getElementById("surname").value;
+	var pattern=/\W|\d|_/ig;
+	if(name=="" || name.length<3 || name.indexOf(" ")>-1 || name.match(pattern))
+	{
+		document.getElementById("surname").value="";
+		document.getElementById("surname").placeholder="Invalid surname!!";
+		document.getElementById("surname").focus();
+		return false;
+	}
+	else
+		return true;	
+}
+function mail_validator()
+{
+	var mail=document.getElementById("email").value;
+	var pattern=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	if(!mail.match(pattern) && isNaN(mail))
+	{
+		document.getElementById("email").value="";
+		document.getElementById("email").placeholder="Invalid mail id!!";
+		document.getElementById("email").focus();
+		return false;
+	}
+	else
+	{
+		if(mail.length!=10 && !isNaN(mail))
+		{
+			document.getElementById("email").value="";
+			document.getElementById("email").placeholder="Invalid number!!";
+			document.getElementById("email").focus();
+			return false;
+		}
+		else
+			return true;
+	}
+}
+function mail_compair()
+{
+	var mail=document.getElementById("email").value;
+	var check=document.getElementById("confirm").value;
+	if(isNaN(mail))
+	{
+		if(isNaN(check))
+		{
+			if(!mail.match(check))
+			{
+				document.getElementById("confirm").value="";
+				document.getElementById("confirm").placeholder="Mail not matched!!";
+				document.getElementById("confirm").focus();
+				return false;
+			}
+			else
+				return true;
+		}
+		else
+		{
+			document.getElementById("confirm").value="";
+			document.getElementById("confirm").placeholder="Email is provided above!!";
+			document.getElementById("confirm").focus();
+			return false;
+		}
+	}
+	else
+	{
+		if(!isNaN(check))
+		{
+			if(mail!=check)
+			{
+				document.getElementById("confirm").value="";
+				document.getElementById("confirm").placeholder="Numbers not matched!!";
+				document.getElementById("confirm").focus();
+				return false;
+			}
+			else
+				return true;
+		}
+		else
+		{
+			document.getElementById("confirm").value="";
+			document.getElementById("confirm").placeholder="Number is provided above!!";
+			document.getElementById("confirm").focus();
+			return false;
+		}
+	}
+}
+function passwd_validator()
+{
+	var passwd=document.getElementById("passwd").value;
+	if(passwd=="" || passwd.length<8)
+	{
+		document.getElementById("passwd").value="";
+		document.getElementById("passwd").placeholder="Invalid password!!";
+		document.getElementById("passwd").focus();
+		return false;
+	}
+	else
+		return true;
+}
+function day_selector()
+{
+	var day=document.getElementById("day").value;
+	if(day=="Day")
+	{
+		alert("Select a Day!!");
+		document.getElementById("day").focus();
+		return false;
+	}
+	else
+		return true;
+}
+function month_selector()
+{
+	var month=document.getElementById("month").value;
+	if(month=="Month")
+	{
+		alert("Select a Month!!");
+		document.getElementById("month").focus();
+		return false;
+	}
+	else
+		return true;
+}
+function year_selector()
+{
+	var year=document.getElementById("year").value;
+	if(year=="Year")
+	{
+		alert("Select a Year!!");
+		document.getElementById("year").focus();
+		return false;
+	}
+	else
+		return true;
+}
+function gender_verification()
+{
+	if(document.getElementById("male").checked || document.getElementById("female").checked)
+	{
+		return true;
+	}
+	else
+	{
+		alert("Select gender");
+		return false;
+	}
+}
+function signup_validator()
+{
+	if(firstname_validator() && surname_validator() && mail_validator() && mail_compair() && passwd_validator() && day_selector() && month_selector() && year_selector() && gender_verification())
+	{
+		var dob=""+document.getElementById("day").value+"-"+document.getElementById("month").value+"-"+document.getElementById("year").value;
+		var usr_data={"firstname":document.getElementById("first_name").value,"surname":document.getElementById("surname").value,"email":document.getElementById("email").value,"dob":dob,"passwd":document.getElementById("passwd").value};
+		if(checkCookie(usr_data.email,""))
+		{
+			document.getElementById("email").value="";
+			document.getElementById("confirm").value="";
+			document.getElementById("email").placeholder="Mail or number is already registered";
+			document.getElementById("confirm").placeholder="Re-enter email or mobile number";
+			document.getElementById("email").focus();
+			return false;
+		}
+		else
+		{
+			setCookie(usr_data);
+			return true;
+		}
+	}
+	else
+		return false;
+}
