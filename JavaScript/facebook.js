@@ -1,13 +1,34 @@
-function getCookie(mail)
+function login_data(cookie_data)
 {
-	var data=document.cookie;
-	var passwd;
-	data=data.slice(data.indexOf(mail));
-	data=data.slice(data.indexOf("password"));
-	data=data.slice(data.indexOf("="));
-	passwd=data.slice(1,data.indexOf("/"));
-	alert(passwd);
-	return passwd;
+	var credentials=[];
+	for(var i=0;i<cookie_data.length;i++)
+	{
+		var extract_data={"email":"","passwd":""};
+		extract_data.email=cookie_data[i].email;
+		extract_data.passwd=cookie_data[i].passwd;
+		credentials[i]=extract_data;
+	}
+	return credentials;
+}
+function getCookie()
+{
+	var obtain_data=document.cookie.split("/");
+	var usr_data=[];
+	for(var i=0;i<obtain_data.length-1;i++)
+	{
+		var data={"email":"","firstname":"","surname":"","dob":"","passwd":""};
+		data.email=obtain_data[i].slice(obtain_data[i].indexOf("=")+1,obtain_data[i].indexOf(":"));
+		obtain_data[i]=obtain_data[i].slice(obtain_data[i].indexOf(":")+1);
+		data.firstname=obtain_data[i].slice(obtain_data[i].indexOf("=")+1,obtain_data[i].indexOf(":"));
+		obtain_data[i]=obtain_data[i].slice(obtain_data[i].indexOf(":")+1);
+		data.surname=obtain_data[i].slice(obtain_data[i].indexOf("=")+1,obtain_data[i].indexOf(":"));
+		obtain_data[i]=obtain_data[i].slice(obtain_data[i].indexOf(":")+1);
+		data.dob=obtain_data[i].slice(obtain_data[i].indexOf("=")+1,obtain_data[i].indexOf(":"));
+		obtain_data[i]=obtain_data[i].slice(obtain_data[i].indexOf(":")+1);
+		data.passwd=obtain_data[i].slice(obtain_data[i].indexOf("=")+1);
+		usr_data[i]=data;
+	}
+	return login_data(usr_data);
 }
 function setCookie(usr_data)
 {
@@ -15,19 +36,22 @@ function setCookie(usr_data)
 }
 function checkCookie(mail,passwd)
 {
-	var data=document.cookie;
+	var login_data=getCookie();
 	if(passwd=="")
 	{
-		if(data.search(mail)>-1)
-			return true;
-	}
-	if(data.search(mail)>-1)
-	{
-		if(getCookie(mail)==passwd)
-		return true;
+		for(var i=0;i<login_data.length;i++)
+			if(mail==login_data[i].email)
+				return true;
 	}
 	else
+	{
+		for(var i=0;i<login_data.length;i++)
+		{
+			if(mail==login_data[i].email && passwd==login_data[i].passwd)
+				return true;
+		}
 		return false;
+	}
 }
 function login_validator()
 {
