@@ -1,3 +1,6 @@
+// User data collection variable.
+var usr_data;
+
 function getCookie()
 {
 	var obtain_data=document.cookie.split("/");
@@ -20,11 +23,49 @@ function getCookie()
 }
 function create_user_pannel()
 {
-	var usr_data=getCookie();
-	var data="<table class='table'><tr><th>S.No.</th><th>First_Name</th><th>Last_Name</th><th>E-mail</th><th>Birth_date</th></tr>";
+	usr_data=getCookie();
+	var data="<table class='table'><tr><th>S.No.</th><th>First_Name</th><th>Last_Name</th><th>E-mail</th><th>Birth_date</th><th>Selected</th></tr>";
 	for(var i=0;i<usr_data.length;i++)
 	{
-		data+="<tr><td>"+(i+1)+"</td><td>"+usr_data[i].firstname+"</td><td>"+usr_data[i].surname+"</td><td>"+usr_data[i].email+"</td><td>"+usr_data[i].dob+"</td></tr>";
+		data+="<tr><td>"+(i+1)+"</td><td>"+usr_data[i].firstname+"</td><td>"+usr_data[i].surname+"</td><td>"+usr_data[i].email+"</td><td>"+usr_data[i].dob+"</td><td><input type='checkbox' id='"+i+"'></input></td></tr>";
 	}
 	document.getElementById("users").innerHTML=data+"</table>";
+	if(usr_data.length)
+		document.getElementById("del_button").innerHTML="<button type='button' class='btn btn-warning btn-md center-block' onclick='deleteCookies()'>Delete Users</button>";
+	else
+		document.getElementById("del_button").innerHTML="";
+}
+function getUsersToDelete()
+{
+	var incr=0; // array position specifier.
+	var usr_to_delete=[];
+	for(var i=0;i<usr_data.length;i++)
+	{
+		if(document.getElementById(''+i).checked)
+			usr_to_delete[incr++]=usr_data[i].email;
+	}
+	return usr_to_delete;
+}
+function deleteCookies()
+{
+	var flag=0;
+	var usr_to_delete=getUsersToDelete();
+	var obtain_data=document.cookie.split("/");
+	document.cookie="email=delete;expires=Thu, 01 Jan 1970;";
+	for(var i=0;i<usr_data.length;i++)
+	{
+		for(var j=0;j<usr_to_delete.length;j++)
+			if(usr_to_delete[j]==usr_data[i].email)
+			{
+				flag=1;
+				break;
+			}
+			if(flag)
+			{
+				flag=0;
+				continue;
+			}
+			else
+				document.cookie+=obtain_data[i]+"/;";
+		}
 }
