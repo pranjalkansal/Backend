@@ -6,7 +6,7 @@ function checkActiveUser()
   var flag=true;
 	var usr_data=getCookie();
 	for(var i=0;i<usr_data.length;i++)
-		if(usr_data[i].flag)
+		if(usr_data[i].flag!="")
 		{
       flag=false;
       user=""+usr_data[i].firstname+" "+usr_data[i].surname;
@@ -72,14 +72,16 @@ function create_page(user)
 {
   var usr_data=getCookie();
   var friend="<ul class='list-group'><li class='list-group-item list-group-item-success'><span class='badge'>";
-  var friend_list;
+  var friend_list="";
   for(var i=0;i<usr_data.length;i++)
+  {
     if(user_email==usr_data[i].email)
       continue;
     else
-      friend_list="<li class='list-group-item'>"+usr_data[i].firstname+" "+usr_data[i].surname+"</li>";
+      friend_list+="<li class='list-group-item'>"+usr_data[i].firstname+" "+usr_data[i].surname+"</li>";
+  }
   document.getElementById("welcome").innerHTML="<h3>Welcome "+user+"!!</h3>";
-  document.getElementById("friends").innerHTML=friend+(usr_data.length-1)+"</span>Friends</li>"+friend_list;
+  document.getElementById("friends").innerHTML=friend+(usr_data.length-1)+"</span>Friends</li>"+friend_list+"</ul>";
 }
 function get_image()
 {

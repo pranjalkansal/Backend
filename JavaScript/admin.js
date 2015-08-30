@@ -68,4 +68,5 @@ function deleteCookies()
 			else
 				document.cookie+=obtain_data[i]+"/;";
 		}
+		window.location.reload(true);
 }

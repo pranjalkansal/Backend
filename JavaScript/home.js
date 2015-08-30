@@ -6,7 +6,7 @@ function checkActiveUser()
   var flag=true;
 	var usr_data=getCookie();
 	for(var i=0;i<usr_data.length;i++)
-		if(usr_data[i].flag)
+		if(usr_data[i].flag!="")
 		{
       flag=false;
       user=""+usr_data[i].firstname+" "+usr_data[i].surname;
