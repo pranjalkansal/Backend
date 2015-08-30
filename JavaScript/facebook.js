@@ -1,11 +1,19 @@
+function checkActiveUser()
+{
+	var usr_data=getCookie();
+	for(var i=0;i<usr_data.length;i++)
+		if(usr_data[i].flag!="")
+			window.location.assign("home.html");
+}
 function login_data(cookie_data)
 {
 	var credentials=[];
 	for(var i=0;i<cookie_data.length;i++)
 	{
-		var extract_data={"email":"","passwd":""};
+		var extract_data={"email":"","passwd":"","flag":""};
 		extract_data.email=cookie_data[i].email;
 		extract_data.passwd=cookie_data[i].passwd;
+		extract_data.flag=cookie_data[i].flag;
 		credentials[i]=extract_data;
 	}
 	return credentials;
@@ -16,7 +24,7 @@ function getCookie()
 	var usr_data=[];
 	for(var i=0;i<obtain_data.length-1;i++)
 	{
-		var data={"email":"","firstname":"","surname":"","dob":"","passwd":""};
+		var data={"email":"","firstname":"","surname":"","dob":"","passwd":"","flag":""};
 		data.email=obtain_data[i].slice(obtain_data[i].indexOf("=")+1,obtain_data[i].indexOf(":"));
 		obtain_data[i]=obtain_data[i].slice(obtain_data[i].indexOf(":")+1);
 		data.firstname=obtain_data[i].slice(obtain_data[i].indexOf("=")+1,obtain_data[i].indexOf(":"));
@@ -25,14 +33,16 @@ function getCookie()
 		obtain_data[i]=obtain_data[i].slice(obtain_data[i].indexOf(":")+1);
 		data.dob=obtain_data[i].slice(obtain_data[i].indexOf("=")+1,obtain_data[i].indexOf(":"));
 		obtain_data[i]=obtain_data[i].slice(obtain_data[i].indexOf(":")+1);
-		data.passwd=obtain_data[i].slice(obtain_data[i].indexOf("=")+1);
+		data.passwd=obtain_data[i].slice(obtain_data[i].indexOf("=")+1,obtain_data[i].indexOf(":"));
+		obtain_data[i]=obtain_data[i].slice(obtain_data[i].indexOf(":")+1);
+		data.flag=obtain_data[i].slice(obtain_data[i].indexOf("=")+1);
 		usr_data[i]=data;
 	}
 	return login_data(usr_data);
 }
 function setCookie(usr_data)
 {
-	document.cookie+="email="+usr_data.email+":first_name="+usr_data.firstname+":surname="+usr_data.surname+":dob="+usr_data.dob+":password="+usr_data.passwd+"/;";
+	document.cookie+="email="+usr_data.email+":first_name="+usr_data.firstname+":surname="+usr_data.surname+":dob="+usr_data.dob+":password="+usr_data.passwd+":flag=1/;";
 }
 function checkCookie(mail,passwd)
 {
@@ -124,7 +134,7 @@ function surname_validator()
 		return false;
 	}
 	else
-		return true;	
+		return true;
 }
 function mail_validator()
 {
