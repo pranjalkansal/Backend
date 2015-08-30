@@ -5,6 +5,22 @@ function checkActiveUser()
 		if(usr_data[i].flag!="")
 			window.location.assign("home.html");
 }
+function login(mail)
+{
+  var usr_data=getCookie();
+  var obtain_data=document.cookie.split("/");
+  document.cookie="email=delete;expires=Thu, 01 Jan 1970;";
+  for(var i=0;i<usr_data.length;i++)
+  {
+  		if(mail==usr_data[i].email)
+  		{
+        obtain_data[i]=obtain_data[i].slice(0,obtain_data[i].lastIndexOf("="));
+        obtain_data[i]+="=1";
+      }
+  		document.cookie+=obtain_data[i]+"/;";
+  }
+  window.location.assign("facebook.html");
+}
 function login_data(cookie_data)
 {
 	var credentials=[];
@@ -99,7 +115,10 @@ function login_validator()
 		return false;
 	}
 	if(checkCookie(mail,passwd))
+	{
+		login(mail);
 		return true;
+	}
 	else
 	{
 		document.getElementById("login_passwd").value="";

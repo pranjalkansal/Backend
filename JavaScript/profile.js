@@ -1,4 +1,4 @@
-// User details holder
+// User data holders
 var user;
 var user_email;
 function checkActiveUser()
@@ -11,6 +11,7 @@ function checkActiveUser()
       flag=false;
       user=""+usr_data[i].firstname+" "+usr_data[i].surname;
       user_email=usr_data[i].email;
+      create_page(user);
     }
   if(flag)
     window.location.assign("facebook.html");
@@ -51,17 +52,6 @@ function getCookie()
 	}
 	return login_data(usr_data);
 }
-function intro()
-{
-  document.getElementById("get_started").innerHTML="";
-}
-function new_post()
-{
-  var container="<div class='row'><div class='col-sm-12'><h5><strong>"+user+"</strong></h5>";
-  var post=document.getElementById("post").value;
-  if(post!="")
-    document.getElementById("post_area").innerHTML=container+post+"</div></div>";
-}
 function logout()
 {
   var usr_data=getCookie();
@@ -78,7 +68,26 @@ function logout()
   }
   window.location.assign("facebook.html");
 }
-function profile()
+function create_page(user)
 {
-  window.location.assign("profile.html");
+  var usr_data=getCookie();
+  var friend="<ul class='list-group'><li class='list-group-item list-group-item-success'><span class='badge'>";
+  var friend_list;
+  for(var i=0;i<usr_data.length;i++)
+    if(user_email==usr_data[i].email)
+      continue;
+    else
+      friend_list="<li class='list-group-item'>"+usr_data[i].firstname+" "+usr_data[i].surname+"</li>";
+  document.getElementById("welcome").innerHTML="<h3>Welcome "+user+"!!</h3>";
+  document.getElementById("friends").innerHTML=friend+(usr_data.length-1)+"</span>Friends</li>"+friend_list;
+}
+function get_image()
+{
+  var file=document.getElementById("file_get").value;
+  document.getElementById("image").innerHTML="";
+  document.getElementById("image").innerHTML="<img src='"+file+"' style='height:35%;width:100%;'>";
+}
+function home()
+{
+  window.location.assign("home.html");
 }
