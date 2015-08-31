@@ -84,9 +84,10 @@ function new_post()
 function logout()
 {
   var usr_data=getCookie();
+  document.cookie="user=delete;expires=Thu, 01 Jan 1970;"
   var obtain_data=document.cookie.split("~");
   document.cookie="email=delete;expires=Thu, 01 Jan 1970;";
-  for(var i=0;i<usr_data.length-1;i++)
+  for(var i=0;i<usr_data.length;i++)
   {
   		if(user_email==usr_data[i].email)
   		{
