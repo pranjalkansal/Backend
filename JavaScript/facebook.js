@@ -17,7 +17,7 @@ function login(mail)
         obtain_data[i]=obtain_data[i].slice(0,obtain_data[i].lastIndexOf("="));
         obtain_data[i]+="=1";
       }
-  		document.cookie+=obtain_data[i]+"~;";
+  		document.cookie+=obtain_data[i]+"~";
   }
   window.location.assign("facebook.html");
 }
@@ -58,7 +58,7 @@ function getCookie()
 }
 function setCookie(usr_data)
 {
-	document.cookie+="email="+usr_data.email+":first_name="+usr_data.firstname+":surname="+usr_data.surname+":dob="+usr_data.dob+":password="+usr_data.passwd+":flag=1~;";
+	document.cookie+="email="+usr_data.email+":first_name="+usr_data.firstname+":surname="+usr_data.surname+":dob="+usr_data.dob+":password="+usr_data.passwd+":flag=1~";
 }
 function checkCookie(mail,passwd)
 {

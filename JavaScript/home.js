@@ -1,12 +1,12 @@
 // User details holder
 var user;
 var user_email;
-var post="";
+var old_post="";
 function checkPost()
 {
   var data=document.cookie.split("~");
-  var post_string=data[data.length-1].slice(data[data.length-1].indexOf(":")+1);
-  post=post_string;
+  if(data[data.length-1]!="")
+    old_post=data[data.length-1].slice(data[data.length-1].indexOf(":")+1);
 }
 function checkActiveUser()
 {
@@ -19,10 +19,10 @@ function checkActiveUser()
       user=""+usr_data[i].firstname+" "+usr_data[i].surname;
       user_email=usr_data[i].email;
       checkPost();
-      if(post!="")
+      if(old_post!="")
       {
         document.getElementById("get_started").innerHTML="";
-        document.getElementById("post_area").innerHTML=post;
+        document.getElementById("post_area").innerHTML=old_post;
       }
     }
   if(flag)
@@ -76,7 +76,8 @@ function new_post()
 {
   document.getElementById("get_started").innerHTML="";
   var container="<div class='row'><div class='col-sm-12'><h5><strong>"+user+"</strong></h5>";
-  post+=container+document.getElementById("post").value+"</div></div><br />";
+  post=container+document.getElementById("post").value+"</div></div><br />"+old_post;
+  old_post=post;
   if(post!="")
     document.getElementById("post_area").innerHTML=post;
   setCookie(post);
@@ -94,7 +95,7 @@ function logout()
         obtain_data[i]=obtain_data[i].slice(0,obtain_data[i].lastIndexOf("="));
         obtain_data[i]+="=";
       }
-  		document.cookie+=obtain_data[i]+"~;";
+  		document.cookie+=obtain_data[i]+"~";
   }
   window.location.assign("facebook.html");
 }

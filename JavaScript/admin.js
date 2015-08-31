@@ -66,7 +66,7 @@ function deleteCookies()
 				continue;
 			}
 			else
-				document.cookie+=obtain_data[i]+"~;";
+				document.cookie+=obtain_data[i]+"~";
 		}
 		window.location.reload(true);
 }
