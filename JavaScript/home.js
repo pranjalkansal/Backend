@@ -1,6 +1,13 @@
 // User details holder
 var user;
 var user_email;
+var post="";
+function checkPost()
+{
+  var data=document.cookie.split("~");
+  var post_string=data[data.length-1].slice(data[data.length-1].indexOf(":")+1);
+  post=post_string;
+}
 function checkActiveUser()
 {
   var flag=true;
@@ -11,6 +18,12 @@ function checkActiveUser()
       flag=false;
       user=""+usr_data[i].firstname+" "+usr_data[i].surname;
       user_email=usr_data[i].email;
+      checkPost();
+      if(post!="")
+      {
+        document.getElementById("get_started").innerHTML="";
+        document.getElementById("post_area").innerHTML=post;
+      }
     }
   if(flag)
     window.location.assign("facebook.html");
@@ -31,7 +44,7 @@ function login_data(cookie_data)
 }
 function getCookie()
 {
-	var obtain_data=document.cookie.split("/");
+	var obtain_data=document.cookie.split("~");
 	var usr_data=[];
 	for(var i=0;i<obtain_data.length-1;i++)
 	{
@@ -51,30 +64,36 @@ function getCookie()
 	}
 	return login_data(usr_data);
 }
+function setCookie(post)
+{
+  document.cookie="user="+user+":"+post+";";
+}
 function intro()
 {
   document.getElementById("get_started").innerHTML="";
 }
 function new_post()
 {
+  document.getElementById("get_started").innerHTML="";
   var container="<div class='row'><div class='col-sm-12'><h5><strong>"+user+"</strong></h5>";
-  var post=document.getElementById("post").value;
+  post+=container+document.getElementById("post").value+"</div></div><br />";
   if(post!="")
-    document.getElementById("post_area").innerHTML=container+post+"</div></div>";
+    document.getElementById("post_area").innerHTML=post;
+  setCookie(post);
 }
 function logout()
 {
   var usr_data=getCookie();
-  var obtain_data=document.cookie.split("/");
+  var obtain_data=document.cookie.split("~");
   document.cookie="email=delete;expires=Thu, 01 Jan 1970;";
-  for(var i=0;i<usr_data.length;i++)
+  for(var i=0;i<usr_data.length-1;i++)
   {
   		if(user_email==usr_data[i].email)
   		{
         obtain_data[i]=obtain_data[i].slice(0,obtain_data[i].lastIndexOf("="));
         obtain_data[i]+="=";
       }
-  		document.cookie+=obtain_data[i]+"/;";
+  		document.cookie+=obtain_data[i]+"~;";
   }
   window.location.assign("facebook.html");
 }

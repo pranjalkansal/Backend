@@ -32,7 +32,7 @@ function login_data(cookie_data)
 }
 function getCookie()
 {
-	var obtain_data=document.cookie.split("/");
+	var obtain_data=document.cookie.split("~");
 	var usr_data=[];
 	for(var i=0;i<obtain_data.length-1;i++)
 	{
@@ -55,7 +55,7 @@ function getCookie()
 function logout()
 {
   var usr_data=getCookie();
-  var obtain_data=document.cookie.split("/");
+  var obtain_data=document.cookie.split("~");
   document.cookie="email=delete;expires=Thu, 01 Jan 1970;";
   for(var i=0;i<usr_data.length;i++)
   {
@@ -64,7 +64,7 @@ function logout()
         obtain_data[i]=obtain_data[i].slice(0,obtain_data[i].lastIndexOf("="));
         obtain_data[i]+="=";
       }
-  		document.cookie+=obtain_data[i]+"/;";
+  		document.cookie+=obtain_data[i]+"~;";
   }
   window.location.assign("facebook.html");
 }
