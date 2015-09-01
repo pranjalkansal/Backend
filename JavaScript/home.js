@@ -2,11 +2,29 @@
 var user;
 var user_email;
 var old_post="";
+function getJSON(data)
+{
+  var extract=[];
+  var index=0;
+  for(var i=0;i<data.length;i++)
+  {
+    var pair={"name":"","value":""};
+    if(data[i]=="")
+      continue;
+    pair.name=data[i].slice(data[i].indexOf("=")+1,data[i].indexOf(":"));
+    pair.value=data[i].slice(data[i].indexOf(":")+1);
+    extract[index++]=pair;
+  }
+  return extract;
+}
 function checkPost()
 {
   var data=document.cookie.split("~");
-  if(data[data.length-1]!="")
-    old_post=data[data.length-1].slice(data[data.length-1].indexOf(":")+1);
+  var usr_uploads=data[data.length-1].split(";");
+  var get_upload_pair=getJSON(usr_uploads);
+  for(var i=0;i<get_upload_pair.length;i++)
+  if(get_upload_pair[i].name=="post")
+    old_post=get_upload_pair[i].value;
 }
 function checkActiveUser()
 {
@@ -66,7 +84,7 @@ function getCookie()
 }
 function setCookie(post)
 {
-  document.cookie="user="+user+":"+post+";";
+  document.cookie="user=post"+":"+post+";";
 }
 function intro()
 {
@@ -85,6 +103,7 @@ function new_post()
 function logout()
 {
   var usr_data=getCookie();
+  document.cookie="usr_image=delete;expires=Tue, 01 Jan 1970;"
   document.cookie="user=delete;expires=Thu, 01 Jan 1970;"
   var obtain_data=document.cookie.split("~");
   document.cookie="email=delete;expires=Thu, 01 Jan 1970;";

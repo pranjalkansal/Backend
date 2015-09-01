@@ -1,6 +1,36 @@
 // User data holders
 var user;
 var user_email;
+function getJSON(data)
+{
+  var extract=[];
+  var index=0;
+  for(var i=0;i<data.length;i++)
+  {
+    var pair={"name":"","value":""};
+    if(data[i]=="")
+      continue;
+    pair.name=data[i].slice(data[i].indexOf("=")+1,data[i].indexOf(":"));
+    pair.value=data[i].slice(data[i].indexOf(":")+1);
+    extract[index++]=pair;
+  }
+  return extract;
+}
+function checkImage()
+{
+  var obtain_data=document.cookie.split("~");
+  var usr_uploads=obtain_data[obtain_data.length-1].split(";");
+  var get_upload_pair=getJSON(usr_uploads);
+  for(var i=0;i<get_upload_pair.length;i++)
+  {
+    if(get_upload_pair[i].name=="image")
+    {
+
+      document.getElementById("image").innerHTML="";
+      document.getElementById("image").innerHTML="<img src='"+get_upload_pair[i].value+"' style='height:35%;width:100%;'>";
+    }
+  }
+}
 function checkActiveUser()
 {
   var flag=true;
@@ -11,6 +41,7 @@ function checkActiveUser()
       flag=false;
       user=""+usr_data[i].firstname+" "+usr_data[i].surname;
       user_email=usr_data[i].email;
+      checkImage();
       create_page(user);
     }
   if(flag)
@@ -52,9 +83,14 @@ function getCookie()
 	}
 	return login_data(usr_data);
 }
+function setCookie(file)
+{
+  document.cookie="usr_image=image:"+file+";";
+}
 function logout()
 {
   var usr_data=getCookie();
+  document.cookie="usr_image=delete;expires=Tue, 01 Jan 1970;"
   document.cookie="user=delete;expires=Tue, 01 Jan 1970;"
   var obtain_data=document.cookie.split("~");
   document.cookie="email=delete;expires=Thu, 01 Jan 1970;";
@@ -88,6 +124,7 @@ function get_image()
 {
   var file=document.getElementById("file_get");
   file=window.URL.createObjectURL(file.files[0]);
+  setCookie(file);
   document.getElementById("image").innerHTML="";
   document.getElementById("image").innerHTML="<img src='"+file+"' style='height:35%;width:100%;'>";
 }
