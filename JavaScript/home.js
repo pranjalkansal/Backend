@@ -36,6 +36,7 @@ function checkActiveUser()
       flag=false;
       user=""+usr_data[i].firstname+" "+usr_data[i].surname;
       user_email=usr_data[i].email;
+      document.getElementById("profile").innerHTML="<span class='glyphicon glyphicon-user'></span> "+usr_data[i].firstname;
       checkPost();
       if(old_post!="")
       {
