@@ -99,6 +99,8 @@ function new_post()
   old_post=post;
   if(post!="")
     document.getElementById("post_area").innerHTML=post;
+  document.getElementById("post").value="";
+  document.getElementById("post").placeholder="Write a new Status update!!";
   setCookie(post);
 }
 function logout()
