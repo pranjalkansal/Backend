@@ -25,7 +25,6 @@ function checkImage()
   {
     if(get_upload_pair[i].name=="image")
     {
-
       document.getElementById("image").innerHTML="";
       document.getElementById("image").innerHTML="<img src='"+get_upload_pair[i].value+"' style='height:35%;width:100%;'>";
     }
@@ -122,11 +121,22 @@ function create_page(user)
 }
 function get_image()
 {
-  var file=document.getElementById("file_get");
-  file=window.URL.createObjectURL(file.files[0]);
-  setCookie(file);
-  document.getElementById("image").innerHTML="";
-  document.getElementById("image").innerHTML="<img src='"+file+"' style='height:35%;width:100%;'>";
+  var file_extention=document.getElementById("file_get").value.slice(document.getElementById("file_get").value.lastIndexOf(".")+1);
+  if(file_extention!="jpg" && file_extention!="png" && file_extention!="gif")
+    alert("Not a valid image");
+  else
+  {
+    var file=document.getElementById("file_get");
+    if(file.files[0].size<2048000)
+    {
+      file=window.URL.createObjectURL(file.files[0]);
+      setCookie(file);
+      document.getElementById("image").innerHTML="";
+      document.getElementById("image").innerHTML="<img src='"+file+"' style='height:35%;width:100%;'>";
+    }
+    else
+      alert("File size is greater than 2MB");
+  }
 }
 function home()
 {
