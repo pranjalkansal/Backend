@@ -20,6 +20,29 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div id="users"></div>
+		<div id="confirm_block" class="well well-md">
+			<div class="row col-xs-12">
+				<h4 style="text-align:center;"><strong>Wait!!</strong></h4>
+			</div>
+			<div class="row col-xs-12">
+				<h4>
+					You are about to delete <label id="count"></label> users.
+				</h4>
+			</div>
+			<div class="row col-xs-12">
+				<h5>
+					Are you sure you want to continue?
+				</h5>
+			</div>
+			<div class="row col-xs-12">
+				<div class="col-sm-6">
+					<button type="button" class="btn btn-danger form-control" onclick="continueDelete()">Yes</button>
+				</div>
+				<div class="col-sm-6">
+					<button type="button" class="btn btn-warning form-control" onclick="cancelDelete()">No</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <div class="row">

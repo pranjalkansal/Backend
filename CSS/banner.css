@@ -5,3 +5,10 @@
    color: white;
    background-color: #3B5999;
 }
+#confirm_block{
+  position: absolute;
+  z-index: 5;
+  left: 32%;
+  right: 35%;
+  top: 25%;
+}
