@@ -9,7 +9,8 @@ function login(mail)
 {
   var usr_data=getCookie();
   var obtain_data=document.cookie.split("~");
-  document.cookie="email=delete;expires=Thu, 01 Jan 1970;";
+  var expiry=new Date();
+  document.cookie="email=delete;expires="+expiry.toUTCString()+";";
   for(var i=0;i<usr_data.length;i++)
   {
   		if(mail==usr_data[i].email)

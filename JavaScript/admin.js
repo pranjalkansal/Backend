@@ -31,9 +31,28 @@ function create_user_pannel()
 	}
 	document.getElementById("users").innerHTML=data+"</table>";
 	if(usr_data.length)
-		document.getElementById("del_button").innerHTML="<button type='button' class='btn btn-warning btn-md center-block' onclick='deleteCookies()'>Delete Users</button>";
+		document.getElementById("del_button").innerHTML="<button type='button' class='btn btn-warning btn-md center-block' onclick='confirmDelete()'>Delete Users</button>";
 	else
 		document.getElementById("del_button").innerHTML="";
+}
+function confirmDelete()
+{
+	var usr_to_delete=getUsersToDelete();
+	if(usr_to_delete.length)
+	{
+		document.getElementById("count").innerHTML=usr_to_delete.length;
+		document.getElementById("confirm_block").style.display="block";
+	}
+}
+function cancelDelete()
+{
+	document.getElementById("confirm_block").style.display="none";
+}
+function continueDelete()
+{
+	var usr_to_delete=getUsersToDelete();
+	document.getElementById("confirm_block").style.display="none";
+	deleteCookies(usr_to_delete);
 }
 function getUsersToDelete()
 {
@@ -46,23 +65,23 @@ function getUsersToDelete()
 	}
 	return usr_to_delete;
 }
-function deleteCookies()
+function deleteCookies(usr_to_delete)
 {
-	var flag=0;
-	var usr_to_delete=getUsersToDelete();
+	var flag=false;
 	var obtain_data=document.cookie.split("~");
-	document.cookie="email=delete;expires=Thu, 01 Jan 1970;";
+    var expiry=new Date();
+	document.cookie="email=delete;expires="+expiry.toUTCString()+";";
 	for(var i=0;i<usr_data.length;i++)
 	{
 		for(var j=0;j<usr_to_delete.length;j++)
 			if(usr_to_delete[j]==usr_data[i].email)
 			{
-				flag=1;
+				flag=true;
 				break;
 			}
 			if(flag)
 			{
-				flag=0;
+				flag=false;
 				continue;
 			}
 			else

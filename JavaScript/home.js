@@ -54,8 +54,8 @@ function login_data(cookie_data)
 	{
 		var extract_data={"email":"","firstname":"","surname":"","flag":""};
 		extract_data.firstname=cookie_data[i].firstname;
-    extract_data.email=cookie_data[i].email;
-    extract_data.surname=cookie_data[i].surname;
+        extract_data.email=cookie_data[i].email;
+        extract_data.surname=cookie_data[i].surname;
 		extract_data.flag=cookie_data[i].flag;
 		credentials[i]=extract_data;
 	}
@@ -106,10 +106,11 @@ function new_post()
 function logout()
 {
   var usr_data=getCookie();
-  document.cookie="usr_image=delete;expires=Tue, 01 Jan 1970;"
-  document.cookie="user=delete;expires=Thu, 01 Jan 1970;"
+  var expiry=new Date();
+  document.cookie="usr_image=delete;expires="+expiry.toUTCString()+";";
+  document.cookie="user=delete;expires="+expiry.toUTCString()+";";
   var obtain_data=document.cookie.split("~");
-  document.cookie="email=delete;expires=Thu, 01 Jan 1970;";
+  document.cookie="email=delete;expires="+expiry.toUTCString()+";";
   for(var i=0;i<usr_data.length;i++)
   {
   		if(user_email==usr_data[i].email)
